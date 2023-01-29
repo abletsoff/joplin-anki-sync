@@ -23,6 +23,10 @@ folders = {
 #        "Programming":"09f327180873452da30d3603a3e3e13b"
 # }
 
+excluded_headers=("# ToDo", "# Resources", "# Knowledgebase", "# CLI", "# Projects",
+                  "# Check list", "# Setup", "# Recipes" "# Cheat sheet")
+excluded_notes=("Helpdesk ", "Projects ", "Keyboard cowboy")
+
 created=[]
 updated=[]
 deleted=[]
@@ -36,7 +40,7 @@ def joplin_note_parser(note_name, note_id):
     headers = re.findall(header_re, markdown)
     headers_hash={}
     for header in headers:
-        if header.rstrip() in {"# ToDo", "# Resources", "# Knowledgebase", "# CLI", "# Projects"}:
+        if header.rstrip().startswith(excluded_headers):
             continue
         if "==" in header:
             continue
@@ -135,6 +139,8 @@ for f_name,f_id in folders.items():
     notes = joplin_folder_parser(f_id)
     sum_titles=[]
     for n_name, n_id in notes.items():
+        if n_name.startswith(excluded_notes):
+            continue
         titles_hash = joplin_note_parser(n_name, n_id)
         for title, t_hash in titles_hash.items():
             anki_add_card(f_name, title, t_hash, cards)
