@@ -4,36 +4,55 @@ import requests
 import json
 import re
 import hashlib
+import os
 
 PYTHONHASHSEED=None
 
 anki_origin="http://localhost:8765/"
 joplin_origin="http://localhost:41184/"
-token="b34e8b824fc490fd9184d50535039b565a44d27cbb63f94ae85630bb8c8ea5ca9184d97a1a766ae173164c5f43" \
-	  "cf03a5fb6f58107d3d490a3c362f19a364e394"
 
-folders = {
-        "TCP/IP":"46df78fe4ae94e21b9221d887633025f",
-        "AppSec":"cbf1aecc6b5a4161ae2f36862e1c113d",
-        "System":"7a6b9db94e5f4d3a98005ece95927ea8",
-        "Programming":"09f327180873452da30d3603a3e3e13b"
-}
-
-# folders = {
-#        "Programming":"09f327180873452da30d3603a3e3e13b"
-# }
-
-excluded_headers=("# ToDo", "# Resources", "# Knowledgebase", "# CLI", "# Projects",
-                  "# Check list", "# Setup", "# Recipes" "# Cheat sheet")
-excluded_notes=("Helpdesk ", "Projects ", "Keyboard cowboy")
-
+token=""
+folders={}
+excluded_headers=()
+excluded_notes=()
 created=[]
 updated=[]
 deleted=[]
 
-header_re=re.compile(r'^# .*', re.MULTILINE)
+def config_parser():
+    global token
+    global folders
+    global excluded_headers
+    global excluded_notes
+   
+    try:
+        config_json=""
+        path=f'{os.getenv("HOME")}/.config/joplin-anki-sync.conf'
+        with open(path) as config_file:
+            try:
+                config_json=json.load(config_file)
+            except json.decoder.JSONDecodeError as error:
+                print(f"[Error] JSON decoder error: {error}\nPlease check '{path}' syntax.")
+                exit()
+    except FileNotFoundError:
+        print(f"[Error] No such file or directory: '{path}'\nPlease read the manual :)")
+        exit()
+
+    token=config_json["token"]
+    
+    response = requests.get(f'{joplin_origin}folders?token={token}')
+    response_json = json.loads(response.text)
+
+    for joplin_folder in response_json["items"]:
+        for config_folder in config_json["folders"]:
+            if joplin_folder["title"] == config_folder:
+                folders[f"{config_folder}"] = joplin_folder["id"]
+                break
+    excluded_headers = tuple(config_json["exclude_headers"])
+    excluded_notes = tuple(config_json["exclude_notes"])
 
 def joplin_note_parser(note_name, note_id):
+    header_re=re.compile(r'^# .*', re.MULTILINE)
     response = requests.get(f'{joplin_origin}/notes/{note_id}?token={token}&fields=body')
     response_json = json.loads(response.text)
     markdown = response_json['body']
@@ -133,6 +152,8 @@ def statistic():
     print(f"Deleted cards: {len(deleted)}")
     for card in deleted:
         print("\t", card)
+
+config_parser()
 
 for f_name,f_id in folders.items():
     cards = anki_deck_parser(f_name)
