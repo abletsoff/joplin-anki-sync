@@ -145,13 +145,13 @@ def anki_del_card(deck, titles, cards):
 def statistic():
     print(f"Created cards: {len(created)}")
     for card in created:
-        print("-", card)
+        print(" -", card)
     print(f"Updated cards: {len(updated)}")
     for card in updated:
-        print("-", card)
+        print(" -", card)
     print(f"Deleted cards: {len(deleted)}")
     for card in deleted:
-        print("-", card)
+        print(" -", card)
 
 config_parser()
 
