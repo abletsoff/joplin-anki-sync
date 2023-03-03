@@ -40,9 +40,13 @@ def config_parser():
 
     token=config_json["token"]
     
-    response = requests.get(f'{joplin_origin}folders?token={token}')
-    response_json = json.loads(response.text)
-
+    try:
+        response = requests.get(f'{joplin_origin}folders?token={token}')
+        response_json = json.loads(response.text)
+    except requests.exceptions.ConnectionError:
+        print(f"[Error] Cannot connect to Joplin web clipper service ({joplin_origin})")
+        exit()
+    
     for joplin_folder in response_json["items"]:
         for config_folder in config_json["folders"]:
             if joplin_folder["title"] == config_folder:
@@ -50,6 +54,15 @@ def config_parser():
                 break
     excluded_headers = tuple(config_json["exclude_headers"])
     excluded_notes = tuple(config_json["exclude_notes"])
+    
+    # At this moment, version check is used only for Error handling
+    try:
+        anki_json = {"action": "version","version": 6}
+        response = requests.post(anki_origin, json=anki_json)
+    except requests.exceptions.ConnectionError:
+        print(f"[Error] Cannot connect to Ankiconnect add-on ({anki_origin})")
+        exit()
+
 
 def joplin_note_parser(note_name, note_id):
     header_re=re.compile(r'^# .*', re.MULTILINE)
@@ -63,6 +76,8 @@ def joplin_note_parser(note_name, note_id):
             continue
         if "==" in header:
             continue
+        if "wall" in header:
+            print(header)
         var=None
         content=''
         subheaders=[]
@@ -73,7 +88,7 @@ def joplin_note_parser(note_name, note_id):
                 content+=line
                 if re.search(r'^##+', line):
                     subheaders.append(re.sub(r'^##+ ', '', line))
-            if re.search(rf'{header} *$', line):
+            if re.search(rf'^{header} *$', line):
                 var=header
         title = f"{note_name}  / {header.replace('# ', '')} {str(subheaders)}" 
         content_hash = hashlib.md5(content.replace(' ', '').encode()).hexdigest()
