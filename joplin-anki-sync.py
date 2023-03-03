@@ -76,8 +76,6 @@ def joplin_note_parser(note_name, note_id):
             continue
         if "==" in header:
             continue
-        if "wall" in header:
-            print(header)
         var=None
         content=''
         subheaders=[]
