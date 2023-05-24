@@ -71,6 +71,17 @@ def joplin_note_parser(note_name, note_id):
     markdown = response_json['body']
     headers = re.findall(header_re, markdown)
     headers_hash={}
+
+    # Removing code coments from headers
+    check=False
+    exclude_headers=[]
+    for line in markdown.split('\n'):
+            if re.search(r'^```', line):
+                check = not check
+            if check == True and re.search(r'^# .*', line):
+                exclude_headers.append(line)
+    headers=list(set(headers) - set(exclude_headers))
+
     for header in headers:
         if header.rstrip().startswith(excluded_headers):
             continue
