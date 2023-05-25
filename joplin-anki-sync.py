@@ -74,13 +74,13 @@ def joplin_note_parser(note_name, note_id):
 
     # Removing code coments from headers
     check=False
-    exclude_headers=[]
+    comment_headers=[]
     for line in markdown.split('\n'):
             if re.search(r'^```', line):
                 check = not check
             if check == True and re.search(r'^# .*', line):
-                exclude_headers.append(line)
-    headers=list(set(headers) - set(exclude_headers))
+                comment_headers.append(line)
+    headers=list(set(headers) - set(comment_headers))
 
     for header in headers:
         if header.rstrip().startswith(excluded_headers):
@@ -92,7 +92,8 @@ def joplin_note_parser(note_name, note_id):
         subheaders=[]
         for line in markdown.split('\n'):
             if re.search(header_re, line):
-                var=None
+                if line not in comment_headers:
+                    var=None
             if var != None:
                 content+=line
                 if re.search(r'^##+', line):
