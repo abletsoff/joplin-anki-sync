@@ -1,0 +1,4 @@
+#/etc/cron.d/joplin-anki-sync
+
+PATH=/bin:/usr/bin:/usr/sbin:/usr/local/bin
+*/10 * * * * andrew joplin-anki-sync >/dev/null 2>&1
