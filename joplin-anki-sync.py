@@ -5,6 +5,7 @@ import json
 import re
 import hashlib
 import os
+import syslog
 
 PYTHONHASHSEED=None
 
@@ -44,7 +45,9 @@ def config_parser():
         response = requests.get(f'{joplin_origin}folders?token={token}')
         response_json = json.loads(response.text)
     except requests.exceptions.ConnectionError:
-        print(f"[Error] Cannot connect to Joplin web clipper service ({joplin_origin})")
+        msg=f"Cannot connect to Joplin web clipper service ({joplin_origin})"
+        print(msg)
+        syslog.syslog(msg)
         exit()
     
     for joplin_folder in response_json["items"]:
@@ -60,7 +63,9 @@ def config_parser():
         anki_json = {"action": "version","version": 6}
         response = requests.post(anki_origin, json=anki_json)
     except requests.exceptions.ConnectionError:
-        print(f"[Error] Cannot connect to Ankiconnect add-on ({anki_origin})")
+        msg=f"Cannot connect to Ankiconnect add-on ({anki_origin})"
+        print(msg)
+        syslog.syslog(msg)
         exit()
 
 
@@ -177,6 +182,7 @@ def statistic():
     print(f"Deleted cards: {len(deleted)}")
     for card in deleted:
         print(" -", card)
+    syslog.syslog(f"Created: {len(created)}, Updated: {len(updated)}, Deleted: {len(deleted)}")
 
 config_parser()
 
