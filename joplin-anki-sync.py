@@ -25,13 +25,14 @@ def config_parser():
     global folders
     global excluded_headers
     global excluded_notes
-   
+    
+    # Joplin web clipper authorization token parsing
     try:
-        config_json=""
-        path=f'{os.getenv("HOME")}/.config/joplin-anki-sync.conf'
+        token_json=""
+        path='token.json'
         with open(path) as config_file:
             try:
-                config_json=json.load(config_file)
+                token_json=json.load(config_file)
             except json.decoder.JSONDecodeError as error:
                 print(f"[Error] JSON decoder error: {error}\nPlease check '{path}' syntax.")
                 exit()
@@ -39,7 +40,17 @@ def config_parser():
         print(f"[Error] No such file or directory: '{path}'\nPlease read the manual :)")
         exit()
 
-    token=config_json["token"]
+    token=token_json["token"]
+
+    # Configuration parsing
+    config_json=""
+    path='config.json'
+    with open(path) as config_file:
+        try:
+            config_json=json.load(config_file)
+        except json.decoder.JSONDecodeError as error:
+            print(f"[Error] JSON decoder error: {error}\nPlease check '{path}' syntax.")
+            exit()
     
     try:
         response = requests.get(f'{joplin_origin}folders?token={token}')

@@ -1,8 +1,7 @@
 {
-	"token":"",
 	"folders":["TCP/IP", "AppSec", "System", "Programming"],
 	"exclude_headers":[
-		"# ToDo", "# Resources", "# Knowledgebase", "# CLI", 
+		"# ToDo", "# Resources", "# Knowledgebase", "# CLI",
 		"# Projects","# Check list", "# Setup", "# Recipes", "# Cheat sheet"
 	],
 	"exclude_notes":["Helpdesk", "Projects", "Keyboard cowboy"]
