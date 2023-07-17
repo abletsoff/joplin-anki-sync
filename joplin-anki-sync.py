@@ -27,31 +27,48 @@ def config_parser():
     global excluded_notes
     
     # Joplin web clipper authorization token parsing
-    try:
-        token_json=""
-        path='token.json'
+    token_json=""
+    paths=(f'{os.getenv("HOME")}/.config/joplin-anki-sync/token.json',
+            f'{os.getenv("PWD")}/token.json')
+
+    if (os.path.isfile(paths[0]) or os.path.isfile(paths[1])):
+        if (os.path.isfile(paths[0])):
+            path=paths[0]
+        else:
+            path=paths[1]
         with open(path) as config_file:
             try:
                 token_json=json.load(config_file)
             except json.decoder.JSONDecodeError as error:
-                print(f"[Error] JSON decoder error: {error}\nPlease check '{path}' syntax.")
+                print(f"[Error] JSON decoder error: {error}. Please check '{path}' syntax.")
                 exit()
-    except FileNotFoundError:
-        print(f"[Error] No such file or directory: '{path}'\nPlease read the manual :)")
+    else:
+        print(f"[Error] At least one of the following files does not exist: '{paths}'."
+                "Please read the manual :)")
         exit()
 
     token=token_json["token"]
 
     # Configuration parsing
     config_json=""
-    path='config.json'
-    with open(path) as config_file:
-        try:
-            config_json=json.load(config_file)
-        except json.decoder.JSONDecodeError as error:
-            print(f"[Error] JSON decoder error: {error}\nPlease check '{path}' syntax.")
-            exit()
-    
+    paths=(f'{os.getenv("HOME")}/.config/joplin-anki-sync/config.json',
+            f'{os.getenv("PWD")}/config.json')
+
+    if (os.path.isfile(paths[0]) or os.path.isfile(paths[1])):
+        if (os.path.isfile(paths[0])):
+            path=paths[0]
+        else:
+            path=paths[1]
+        with open(path) as config_file:
+            try:
+                config_json=json.load(config_file)
+            except json.decoder.JSONDecodeError as error:
+                print(f"[Error] JSON decoder error: {error}\nPlease check '{path}' syntax.")
+                exit()
+    else:
+        print(f"[Error] At least one of the following files does not exist: '{paths}'.")
+        exit()
+        
     try:
         response = requests.get(f'{joplin_origin}folders?token={token}')
         response_json = json.loads(response.text)
