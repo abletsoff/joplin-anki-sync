@@ -151,6 +151,11 @@ def anki_deck_parser(deck):
     anki_json = {"action": "findNotes","version": 6,"params": {"query": f"deck:{deck}"}}
     response = requests.post(anki_origin, json=anki_json)
     cards_id = json.loads(response.text)['result']
+
+    # If anki deck does not exist yet
+    if not cards_id:
+       anki_add_deck(deck) 
+
     cards = {}
     for card_id in cards_id:
         anki_json = {"action": "notesInfo","version": 6,"params": {"notes": [card_id]}}
@@ -161,6 +166,9 @@ def anki_deck_parser(deck):
         cards[card_id]=[front,back]
     return cards
 
+def anki_add_deck(deck):
+    anki_json = {"action": "createDeck","version": 6,"params": {"deck": f"{deck}"}}
+    response = requests.post(anki_origin, json=anki_json)
 
 def anki_add_card(deck, front, back, cards):
     anki_json= {
