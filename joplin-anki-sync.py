@@ -140,7 +140,7 @@ def joplin_note_parser(note_name, note_id):
 
 def joplin_folder_parser (folder_id):
     response = requests.get(f'{joplin_origin}/folders/{folder_id}/notes?token={token}')
-    response_json = json.loads(response.text)
+    response_json = json.loads(response.content)
     notes={}
     for note in response_json['items']:
         note_title = note['title']
@@ -201,7 +201,7 @@ def anki_del_card(deck, titles, cards):
         if not exist:
             anki_json = {"action": "notesInfo","version": 6,"params": {"notes": [card_id]}}
             response = requests.post(anki_origin, json=anki_json)
-            note_json = json.loads(response.text) 
+            note_json = json.loads(response.content) 
             front = note_json['result'][0]['fields']['Front']['value']
             deleted.append(front)
             anki_json_d={"action": "deleteNotes","version": 6,"params": {"notes": [card_id]}}
