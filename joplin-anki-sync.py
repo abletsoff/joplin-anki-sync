@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/home/andrew/Documents/scripts/joplin-anki-sync/venv/bin/python3
 
 import requests
 import json
