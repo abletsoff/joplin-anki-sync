@@ -1,5 +1,5 @@
 {
-	"folders":["TCP/IP", "AppSec", "System", "Programming", "Learning"],
+	"folders":["TCP/IP", "AppSec", "System", "Programming"],
 	"exclude_headers":[
 		"# ToDo", "# Resources", "# Knowledgebase", "# CLI",
 		"# Projects","# Check list", "# Setup", "# Recipes", "# Cheat sheet"
