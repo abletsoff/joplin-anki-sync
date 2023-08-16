@@ -3,5 +3,5 @@
 	"exclude_headers":[
 		"# ToDo", "# Resources", "# Check list", "# Recipes"
 	],
-	"exclude_notes":["Helpdesk", "Projects", "Keyboard cowboy"]
+	"exclude_notes":["Helpdesk", "Projects", "Keyboard cowboy", "Cool"]
 }
