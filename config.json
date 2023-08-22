@@ -1,7 +1,7 @@
 {
 	"folders":["TCP/IP", "AppSec", "System", "Programming"],
 	"exclude_headers":[
-		"# ToDo", "# Resources", "# Check list", "# Recipes"
+		"# ToDo", "# Resources", "# Check list", "# Recipes", "# CTF"
 	],
 	"exclude_notes":["Helpdesk", "Projects", "Keyboard cowboy", "Cool"]
 }
