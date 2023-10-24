@@ -6,13 +6,15 @@ Automated management of Anki cards based on Joplin notes for effective spaced re
 - Anki AnkiConnect add-on
 
 # Configuration
+- Create and copy Joplin Web Clipper authorization token
+![clipper](https://github.com/abletsoff/joplin-anki-sync/blob/main/images/clipper.png?raw=true)
 - Create `token.json` file with the following content:
 ``` json
 {
         "token":"8m5j1k6l7n8o9p0q1r2s3t4u5v6w7x8y9z0a1b2c3d4e"
 }
 ```
-- Change `token` value content to your personal one
+- Paste your personal authorization token value 
 
 # Demo
 ## Script execution
