@@ -1,5 +1,5 @@
 # joplin-anki-sync
-Automated management of Anki cards based on Joplin notes for effective spaced repetition learning. 
+Automated management of Anki flashcards based on Joplin notes for effective spaced repetition learning. 
 
 # Requirements
 - Joplin Web clipper service
@@ -16,7 +16,7 @@ Automated management of Anki cards based on Joplin notes for effective spaced re
         "token":"paste_your_authorization_token_here"
 }
 ```
-- Adjust `config.json` file
+- Adjust `config.json` file for your personal setup
 
 # Demo
 ## Script execution
@@ -28,8 +28,8 @@ Automated management of Anki cards based on Joplin notes for effective spaced re
 ## Joplin note
 ![joplin](https://github.com/abletsoff/joplin-anki-sync/blob/main/images/joplin.png?raw=true)
 
-# Algorithm 
-- Go through Joplin folders (specified in `config.json`)
+# joplin-anki-sync lgorithm 
+- Goes through Joplin folders (specified in `config.json`)
 - Separate each Joplin topic at markdown Heading Level 1 (e.g. `# Topic 1`) 
 - Generate Anki flashcard based on the Joplin topic. Flashcard front: Joplin note name + `# Topic 1`; flashcard back: hash of the Joplin topic content. For the reasons of using hash as back of flashcard see [Issue 2](https://github.com/abletsoff/joplin-anki-sync/issues/2)
 - Check if there is an Anki flashcard with the same front
