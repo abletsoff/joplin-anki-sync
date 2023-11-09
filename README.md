@@ -28,7 +28,7 @@ Automated management of Anki flashcards based on Joplin notes for effective spac
 ## Joplin note
 ![joplin](https://github.com/abletsoff/joplin-anki-sync/blob/main/images/joplin.png?raw=true)
 
-# joplin-anki-sync lgorithm 
+# joplin-anki-sync algorithm 
 - Goes through Joplin folders (specified in `config.json`)
 - Separate each Joplin topic at markdown Heading Level 1 (e.g. `# Topic 1`) 
 - Generate Anki flashcard based on the Joplin topic. Flashcard front: Joplin note name + `# Topic 1`; flashcard back: hash of the Joplin topic content. For the reasons of using hash as back of flashcard see [Issue 2](https://github.com/abletsoff/joplin-anki-sync/issues/2)
