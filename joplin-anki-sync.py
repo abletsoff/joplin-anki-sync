@@ -25,6 +25,7 @@ def config_parser():
     global folders
     global excluded_headers
     global excluded_notes
+    global excluded_bold_blocks
     
     # Joplin web clipper authorization token parsing
     token_json=""
@@ -85,6 +86,7 @@ def config_parser():
                 break
     excluded_headers = tuple(config_json["exclude_headers"])
     excluded_notes = tuple(config_json["exclude_notes"])
+    excluded_bold_blocks = tuple(config_json["exclude_bold_block"])
     
     # At this moment, version check is used only for Error handling
     try:
@@ -95,7 +97,6 @@ def config_parser():
         print(msg)
         syslog.syslog(msg)
         exit()
-
 
 def joplin_note_parser(note_name, note_id):
     header_re=re.compile(r'^# .*', re.MULTILINE)
@@ -120,19 +121,26 @@ def joplin_note_parser(note_name, note_id):
             continue
         if "==" in header:
             continue
-        var=None
+        write_segment=None # Is used to decide where is active content of specific H1 header
+        excl_bold_block=False # Bold block to exclude from active segemnt
         content=''
         subheaders=[]
         for line in markdown.split('\n'):
             if re.search(header_re, line):
                 if line not in comment_headers:
-                    var=None
-            if var != None:
-                content+=line
+                    write_segment=None
+            if write_segment != None: # Processing active content
+                for exclude in excluded_bold_blocks:
+                    if line == exclude:
+                        excl_bold_block=True
+                if excl_bold_block == False:
+                    content+=line
+                if line == '' and excl_bold_block == True:
+                    excl_bold_block=False
                 if re.search(r'^##+', line):
                     subheaders.append(re.sub(r'^##+ ', '', line))
             if re.search(rf'^{header} *$', line):
-                var=header
+                write_segment=header
         title = f"{note_name}  / {header.replace('# ', '')} {str(subheaders)}" 
         content_hash = hashlib.md5(content.replace(' ', '').encode()).hexdigest()
         headers_hash[title] = content_hash

@@ -1,7 +1,24 @@
 {
-	"folders":["TCP/IP", "AppSec", "System", "Programming", "Learning", "Web"],
+	"folders":[
+    "Learning",
+    "TCP/IP",
+    "AppSec",
+    "System",
+    "Programming",
+    "Web"
+  ],
 	"exclude_headers":[
-		"# ToDo", "# Resources", "# Check lists", "# Recipes"
+		"# ToDo", 
+    "# Resources", 
+    "# Check lists", 
+    "# Recipes"
 	],
-	"exclude_notes":["Helpdesk", "Projects", "Cool", "Career"]
+	"exclude_notes":[
+    "Projects",
+    "Cool"
+  ],
+  "exclude_bold_block":[
+    "**ToDo**",
+    "**Resources**"
+  ]
 }
