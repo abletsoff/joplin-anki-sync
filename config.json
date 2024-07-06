@@ -19,6 +19,8 @@
   ],
   "exclude_bold_block":[
     "**ToDo**",
-    "**Resources**"
+    "**Resources**",
+    "**Planning**",
+    "**Thoughts**"
   ]
 }
