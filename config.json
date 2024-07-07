@@ -11,6 +11,8 @@
 		"# ToDo", 
     "# Resources", 
     "# Check lists", 
+    "# CTF", 
+    "# Bug bounty", 
     "# Recipes"
 	],
 	"exclude_notes":[
