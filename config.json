@@ -8,7 +8,6 @@
     "Web"
   ],
 	"exclude_headers":[
-		"# ToDo", 
     "# Resources", 
     "# Check lists", 
     "# CTF", 
