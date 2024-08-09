@@ -29,7 +29,7 @@ def config_parser():
     
     # Joplin web clipper authorization token parsing
     token_json=""
-    paths=(f'{os.getenv("HOME")}/.config/joplin-anki-sync/token.json',
+    paths=(f'{os.getenv("HOME")}/.config/joplin-desktop/joplin-anki-sync/token.json',
             f'{os.getenv("PWD")}/token.json')
 
     if (os.path.isfile(paths[0]) or os.path.isfile(paths[1])):
@@ -52,7 +52,7 @@ def config_parser():
 
     # Configuration parsing
     config_json=""
-    paths=(f'{os.getenv("HOME")}/.config/joplin-anki-sync/config.json',
+    paths=(f'{os.getenv("HOME")}/.config/joplin-desktop/joplin-anki-sync/config.json',
             f'{os.getenv("PWD")}/config.json')
 
     if (os.path.isfile(paths[0]) or os.path.isfile(paths[1])):
@@ -100,6 +100,7 @@ def config_parser():
 
 def joplin_note_parser(note_name, note_id):
     header_re=re.compile(r'^# .*', re.MULTILINE)
+    attachment_re=re.compile(r']\(:/[a-f0-9]{32}\)', re.MULTILINE)
     response = requests.get(f'{joplin_origin}/notes/{note_id}?token={token}&fields=body')
     response_json = json.loads(response.text)
     markdown = response_json['body']
@@ -133,7 +134,7 @@ def joplin_note_parser(note_name, note_id):
                 for exclude in excluded_bold_blocks:
                     if line == exclude:
                         excl_bold_block=True
-                if excl_bold_block == False:
+                if excl_bold_block == False and not re.search(attachment_re, line):
                     content+=line
                 if line == '' and excl_bold_block == True:
                     excl_bold_block=False
