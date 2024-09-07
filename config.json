@@ -3,9 +3,11 @@
     "Learning",
     "TCP/IP",
     "AppSec",
+    "Blue Team",
     "System",
     "Programming",
-    "Web"
+    "Web",
+    "DevSecOps"
   ],
 	"exclude_headers":[
     "# Resources", 
