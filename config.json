@@ -7,18 +7,20 @@
     "System",
     "Programming",
     "Web",
-    "DevSecOps"
+    "DevOps"
   ],
 	"exclude_headers":[
     "# Resources", 
     "# Check lists", 
     "# CTF", 
     "# Bug bounty", 
+    "# Questions", 
     "# Recipes"
 	],
 	"exclude_notes":[
     "Projects",
-    "Cool"
+    "Cool",
+    "Helpdesk"
   ],
   "exclude_bold_block":[
     "**ToDo**",
