@@ -140,6 +140,9 @@ def joplin_note_parser(note_name, note_id):
                     excl_bold_block=False
                 if re.search(r'^##+', line):
                     subheaders.append(re.sub(r'^##+ ', '', line))
+                if re.search(r'^\*\*.*\*\*$', line):
+                    if line != "**Resources**":
+                        subheaders.append(re.sub(r'\*\*', '+', line))
             if re.search(rf'^{header} *$', line):
                 write_segment=header
         title = f"{note_name}  / {header.replace('# ', '')} {str(subheaders)}" 
