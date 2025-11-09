@@ -1,26 +1,22 @@
 {
 	"folders":[
-    "Learning",
-    "TCP/IP",
-    "AppSec",
-    "BlueTeam",
-    "System",
-    "Programming",
-    "Web",
-    "DevOps"
+    "Dev",
+    "Defense",
+    "DevSecOps",
+    "Offense",
+    "System"
   ],
 	"exclude_headers":[
     "# Resources", 
     "# Check lists", 
-    "# CTF", 
-    "# Bug bounty", 
     "# Questions", 
     "# Recipes"
 	],
 	"exclude_notes":[
     "Projects",
-    "Cool",
-    "Helpdesk"
+    "Cool features",
+    "Helpdesk",
+    "Datasets"
   ],
   "exclude_bold_block":[
     "**ToDo**",
