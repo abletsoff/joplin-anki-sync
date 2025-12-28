@@ -4,7 +4,9 @@
     "Defense",
     "DevSecOps",
     "Offense",
-    "System"
+    "System",
+    "TCP/IP",
+    "Web"
   ],
 	"exclude_headers":[
     "# Resources", 

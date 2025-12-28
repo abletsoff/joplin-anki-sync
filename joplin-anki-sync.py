@@ -192,6 +192,7 @@ def anki_add_card(deck, front, back, cards):
                 response = requests.post(anki_origin, json=anki_json)
                 updated.append(front)
             return
+
     response = requests.post(anki_origin, json=anki_json)
     created.append(front)
 
